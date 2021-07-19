@@ -2,6 +2,8 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import { DropdownTest } from './DropdownTest';
+import { Page } from './Page';
+import { Link } from 'react-router-dom';
 
 function App() {
     return (
@@ -16,8 +18,13 @@ function App() {
                 </div>
 
                 <img src={logo} className="App-logo" alt="logo" />
-            </header>
+                <Link className="App-link" to="/">Home</Link>
+                <Link className="App-link" to="/about">About</Link>
 
+            </header>
+            <div className="App-body">
+                <Page />
+            </div>
         </div>
     );
 }
