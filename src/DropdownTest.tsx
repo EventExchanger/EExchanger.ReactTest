@@ -38,7 +38,7 @@ export abstract class Dropdown<PROP extends iDropdownProps, STATE extends iDropd
     subscribeOpenDropdownCallback: CB<void> = (t) => {
         if (!this.state.isopen) return; // ignore all events when is closed
 
-        if (t.name == 'click-body') {
+        if (t.name === 'click-body') {
             // some usefull code
             // ...
             console.log('log to console');
