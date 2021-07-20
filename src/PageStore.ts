@@ -18,7 +18,7 @@ class PageStore {
 	}
 
 	load(path: string) {
-		const url = (path === '/') ? 'index.json' : '';
+		const url = (path === '/') ? 'index.json' : path + '.json';
 
 		//console.log('loadPage(path):', path, url);
 
