@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { EExchange, CB } from 'eexchange';
+import { CB } from 'eexchange';
+import eexchange from 'eexchange';
 
 export interface iDropdownProps {
     isopen?: boolean;
@@ -28,11 +29,11 @@ export abstract class Dropdown<PROP extends iDropdownProps, STATE extends iDropd
     }
 
     async componentDidMount() {
-        EExchange.subscribeEvent(['open-dropdown', 'click-body'], this.subscribeOpenDropdownCallback);
+        eexchange.subscribeEvent(['open-dropdown', 'click-body'], this.subscribeOpenDropdownCallback);
     }
 
     async componentWillUnmount() {
-        EExchange.unsubscribeEvent(['open-dropdown', 'click-body'], this.subscribeOpenDropdownCallback);
+        eexchange.unsubscribeEvent(['open-dropdown', 'click-body'], this.subscribeOpenDropdownCallback);
     }
 
     subscribeOpenDropdownCallback: CB<void> = (t) => {
@@ -41,10 +42,11 @@ export abstract class Dropdown<PROP extends iDropdownProps, STATE extends iDropd
         if (t.name === 'click-body') {
             // some usefull code
             // ...
-            console.log('log to console');
+            console.log('log to console when is opened');
             this.close();
             return;
         }
+
         if (t.initiator !== this) this.close();
     };
 
@@ -63,7 +65,7 @@ export abstract class Dropdown<PROP extends iDropdownProps, STATE extends iDropd
     open() {
         this.setState({ isopen: true });
 
-        EExchange.raiseEvent({ initiator: this, name: 'open-dropdown' });
+        eexchange.raiseEvent({ initiator: this, name: 'open-dropdown' });
     }
 
 

@@ -1,7 +1,8 @@
 import * as React from 'react';
 
 import { iPage } from './PageStore';
-import { EExchange, CB } from 'eexchange';
+import { CB } from 'eexchange';
+import eexchange from 'eexchange';
 
 interface PROPS {
 }
@@ -22,15 +23,15 @@ export class Page extends React.Component<PROPS, STATE> {
         this.setState({ page: t.data });
     };
     async componentDidMount() {
-        EExchange.subscribeEvent(['page-loaded'], this.pageLoadedCallback);
+        eexchange.subscribeEvent(['page-loaded'], this.pageLoadedCallback);
 
         // для случая когда контент загрузился до монтирования страницы (например, SSR) сигнализируем что нам надо бы последнюю страницу кинуть
         // должно прекрасно сработать и если отмонтировать страницу, а затем ее заново примонтировать (например показать какое то системное сообщение, а затем вернуть страницу)
-        EExchange.raiseEvent({ initiator: this, name: 'page-mounted' });
+        eexchange.raiseEvent({ initiator: this, name: 'page-mounted' });
     }
 
     async componentWillUnmount() {
-        EExchange.unsubscribeEvent(['page-loaded'], this.pageLoadedCallback);
+        eexchange.unsubscribeEvent(['page-loaded'], this.pageLoadedCallback);
     }
 
     render(): React.ReactNode {

@@ -4,7 +4,8 @@ import './index.css';
 import { PageLoader } from './PageLoader';
 
 import reportWebVitals from './reportWebVitals';
-import { EExchange } from 'eexchange';
+import eexchange from 'eexchange';
+
 import {
     BrowserRouter as Router,
     Switch,
@@ -32,7 +33,7 @@ if (typeof document.body != 'undefined') {  // prevent click events in SSR mode
 
     // send event to react from out react application
     document.body.addEventListener("click", () => {
-        EExchange.raiseEvent({ initiator: document.body, name: 'click-body', data: { blabla: 'bla' } });
+        eexchange.raiseEvent({ initiator: document.body, name: 'click-body', data: { blabla: 'bla' } });
     });
 
 }

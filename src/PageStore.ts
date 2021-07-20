@@ -1,4 +1,4 @@
-import { EExchange } from 'eexchange';
+import eexchange from 'eexchange';
 export interface iPage {
 	content: string;
 	error?: string;
@@ -12,8 +12,8 @@ class PageStore {
 
 	constructor() {
 		// слушаем событие о том что кому-то нужен предзагруженный объект страницы (исключительно для SSR)
-		EExchange.subscribeEvent(['page-mounted'], (t) => {
-			if (page !== undefined) EExchange.raiseEvent({ name: 'page-loaded', initiator: this, data: page });
+		eexchange.subscribeEvent(['page-mounted'], (t) => {
+			if (page !== undefined) eexchange.raiseEvent({ name: 'page-loaded', initiator: this, data: page });
 		});/**/
 	}
 
@@ -41,10 +41,10 @@ class PageStore {
 			//console.log('data loaded', response);
 			page = response;
 			loadedPath = url;
-			EExchange.raiseEvent({ name: 'page-loaded', initiator: this, data: page });
+			eexchange.raiseEvent({ name: 'page-loaded', initiator: this, data: page });
 		}).catch(err => {
 
-			EExchange.raiseEvent({ name: 'page-loaded', initiator: this, data: { content: '', error: JSON.stringify(err.name) } });
+			eexchange.raiseEvent({ name: 'page-loaded', initiator: this, data: { content: '', error: JSON.stringify(err.name) } });
 
 			//console.error('load data error', JSON.stringify(err.name));
 		}).finally(() => {
