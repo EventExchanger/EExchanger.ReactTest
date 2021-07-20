@@ -8,6 +8,22 @@ var page: iPage | undefined = undefined;
 var loadingPath: string = ''; // страница которая грузится в данный момент
 var loadedPath: string = ''; // страница которая загружена и показывается в данный момент
 
+//const preloadedState = window.__PRELOADED_STATE__;
+const _state = typeof window !== 'undefined' ? (window as any).__PRELOADED_STATE__ : undefined;
+if (typeof _state !== 'undefined') {
+	page = _state.page;
+	loadedPath = _state.loadedPath;
+}
+if (typeof (window as any) !== 'undefined') {
+	// Allow the passed state to be garbage-collected
+	delete (window as any).__PRELOADED_STATE__;
+}/**/
+
+// Tell react-snap how to save Redux state
+(window as any).snapSaveState = () => ({
+	__PRELOADED_STATE__: { page: page, loadedPath: loadedPath }
+});/**/
+
 class PageStore {
 
 	constructor() {
@@ -23,10 +39,11 @@ class PageStore {
 		//console.log('loadPage(path):', path, url);
 
 		// 1 отсекаем если мы уже грузим эту страницу
-		if (path === loadingPath) return;
+		if (url === loadingPath) return;
 
 		// 2 отсекаем если эта страница загружена в данный момент и мы не в состояни загрузки
-		if (loadingPath === '' && path === loadedPath) return;
+		//console.log('loadPage(path): loadingPath=', loadingPath, ';loadedPath=', loadedPath, ';url=', url);
+		if (loadingPath === '' && url === loadedPath) return;
 
 
 		loadingPath = url;
